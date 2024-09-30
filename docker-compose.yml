@@ -1,15 +1,25 @@
 version: "3.8"
 
 services:
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    depends_on:
+      - api
+    ports:
+      - "7800:7800"
+
   api:
     build:
-      context: "./api"
-      dockerfile: "Dockerfile"
+      context: api
+      dockerfile: Dockerfile
     container_name: api
     restart: "no"
     image: api
     volumes:
       - ./api/:/usr/src/app
       - ./api/app-cache/:/usr/src/app/app-cache
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
